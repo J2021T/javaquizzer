@@ -22,7 +22,13 @@ body {
     transform: translate(-10%, -10%);
 }
 
-.btn {
+.showTime {
+    top: 5%;
+    right: 5%;
+    transform: translate(-10%, -10%);
+}
+
+#start-btn {
     font-family: 'Josefin', sans-serif;
     color: aliceblue;
     background-color: navy;
