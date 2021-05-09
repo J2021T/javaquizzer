@@ -42,7 +42,31 @@ var timePassed = 0;
 var timeLeft = timerStart;
 var timerInterval = null;
 
+document.getElementById('questionContainer').style.visibility = 'hidden';
 document.getElementById('start-btn').addEventListener('click', countdown);
+document.getElementById('start-btn').addEventListener('click', quiz);
+
+
+function quiz() {
+    document.getElementById('introContainer').style.visibility = 'hidden';
+    document.getElementById('questionContainer').style.visibility = 'visible';
+
+    displayQuestions();
+}
+
+function displayQuestions() {    
+    var question = questionsArr[currentQuestion].question;
+    var questionId = document.getElementById('question');
+    var choicesId = document.getElementById('choices');
+    var numAnswers = questionsArr[currentQuestion].answers.length;
+    var ansOpt = questionsArr[currentQuestion].answers
+    questionId.innerHTML = question;
+    choicesId.innerHTML = '';
+
+    for (var i = 0; i < numAnswers; i++) {
+        document.getElementById('choices').innerHTML += '<button class="li-btn btn">' + ansOpt[i] + '</button>';
+     }
+};
 
 function onTimesUp() {
     clearInterval(timerInterval);

@@ -2,7 +2,7 @@ body {
     background-color: rgb(173, 223, 238);
 }
 
-.container {
+.container, #questionContainer {
     color: navy;
     background-color: aliceblue;
     font-family: 'Josefin', sans-serif;
@@ -28,10 +28,15 @@ body {
     transform: translate(-10%, -10%);
 }
 
-#start-btn {
+.btn {
     font-family: 'Josefin', sans-serif;
     color: aliceblue;
     background-color: navy;
     font-size: 30px;
     font-weight: 400;
+}
+
+.li-btn {
+    font-size: 20px;
+    font-weight: 300;
 }
