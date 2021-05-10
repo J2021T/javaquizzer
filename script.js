@@ -4,32 +4,32 @@ var questionsArr = [
     {
         question: "Which is NOT a JavaScript date type?",
         answers: ['boolean', 'string', 'infinity', 'number'],
-        correctAns: 2
+        correctChoice: 2
     },
     {
         question: 'An undefined variable is a variable that has been given a value.',
         answers: ['True', 'False'],
-        correctAns: 1
+        correctChoice: 1
     },
     {
         question: 'Which symbol is used for single line comments in JavaScript?',
         answer: ['//', '+', "/*", '$'],
-        correctAns: 0
+        correctChoice: 0
     },
     {
         question: 'Which is not a looping structure in JavaScript?',
         answers: ['For', 'While', 'Do-While', 'If'],
-        correctAns: 3
+        correctChoice: 3
     },
     {
         question: 'Which is one of the types of Pop up boxes available in JavaScript?',
         answers: ['Window', 'Alert', 'Id-Box', 'Pop'],
-        correctAns: 1
+        correctChoice: 1
     },
     {
         question: 'If you want to know the number of elements in an array, what property should you use?',
         answers: ['prototype property', 'reverse property', 'length property', 'shift property'],
-        correctAns: 2
+        correctChoice: 2
     }
 ];
 
@@ -41,6 +41,8 @@ const timerStart = 90;
 var timePassed = 0;
 var timeLeft = timerStart;
 var timerInterval = null;
+var correctAnswer = questionsArr[currentQuestion].correctChoice;
+var correct = questionsArr[currentQuestion].answers[correctAnswer];
 
 document.getElementById('questionContainer').style.visibility = 'hidden';
 document.getElementById('start-btn').addEventListener('click', countdown);
@@ -52,6 +54,26 @@ function quiz() {
     document.getElementById('questionContainer').style.visibility = 'visible';
 
     displayQuestions();
+    if (document.getElementsByClassName('li-btn btn').clicked == true) {
+        alert('button was clicked');
+    }
+}
+
+function answerQuestion() {
+    if (timeLeft > 0) {
+        if (document.getElementById(''+ ansOpt[i] +'').clicked === correct) {
+            currentQuestion++;
+            displayQuestions();
+        }
+        else {
+            currentQuestion++;
+            displayQuestions();
+            timeLeft = timeLeft - 5;
+        }
+    }
+    else if (timeLeft === 0) {
+        onTimesUp();
+    }
 }
 
 function displayQuestions() {    
@@ -64,7 +86,7 @@ function displayQuestions() {
     choicesId.innerHTML = '';
 
     for (var i = 0; i < numAnswers; i++) {
-        document.getElementById('choices').innerHTML += '<button class="li-btn btn">' + ansOpt[i] + '</button>';
+        document.getElementById('choices').innerHTML += '<button id="li '+ ansOpt[i] +'" class="li-btn btn">' + ansOpt[i] + '</button>';
      }
 };
 
@@ -78,13 +100,5 @@ function countdown() {
         timePassed = timePassed += 1;
         timeLeft = timerStart - timePassed;
         document.getElementById('timer').innerHTML = " " + timeLeft;
-        console.log(timeLeft);
-        if (timeLeft === 0) {
-            onTimesUp();
-        }
     }, 1000);
-};
-
-
-
-
+}

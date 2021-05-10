@@ -40,3 +40,8 @@ body {
     font-size: 20px;
     font-weight: 300;
 }
+
+ul {
+    display: flex;
+    flex-direction: column;
+}
