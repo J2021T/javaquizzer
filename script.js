@@ -1,5 +1,5 @@
 var highScore = 0;
-var score = 'timer value';
+var score = '';
 var questionsArr = [
     {
         question: "Which is NOT a JavaScript date type?",
@@ -56,30 +56,18 @@ function quiz() {
     document.getElementById('questionContainer').style.visibility = 'visible';
     
     // start the countdown function
-    countdown();
+    timerInterval = setInterval(countdown, 1000);
     // start the questions
     displayQuestions();
-}
+};
 
-function answerQuestion() {
-    if (document.querySelector('button:not(#'+ correct +')').clicked == true) {
-        incrementQuestion();
-        displayQuestions();
-        timeLeft = timeLeft - 5;
-    }
-    else {
-        incrementQuestion();
-        displayQuestions();            
-    }
-}
 
 function displayQuestions() {  
     var thisQuestion = questionsArr[currentQuestion];    
     var question = questionsArr[currentQuestion].question;
     var questionId = document.getElementById('question');
     var choicesId = document.getElementById('choices');
-    var numAnswers = questionsArr[currentQuestion].answers.length;
-    var ansOpt = questionsArr[currentQuestion].answers
+
     // show question
     questionId.innerHTML = question;
     // clear old choices
@@ -89,6 +77,7 @@ function displayQuestions() {
     thisQuestion.answers.forEach(function(answer, i) {
         var choiceBtn = document.createElement('button');
         choiceBtn.setAttribute('id', 'choices');
+        choiceBtn.setAttribute('class', 'li-btn btn')
         choiceBtn.setAttribute('value', answer);
         choiceBtn.innerHTML = i + 1 + ". " + answer;
         // click event listener
@@ -96,6 +85,26 @@ function displayQuestions() {
         // append to div
         choicesId.appendChild(choiceBtn);
      });
+};
+
+function answerQuestion() {
+    if (this.value !== correct) {
+        timeLeft = timeLeft - 5;
+        if (timeLeft < 0) {
+            timeLeft === 0;
+        }
+        // update timeLeft (only semi works. It flashes, but won't stay)
+        document.getElementById('timer').innerHTML = " " + timeLeft;
+    }
+
+    // update current question
+    currentQuestion++;
+
+    if (currentQuestion === questionsArr.length) {
+        quizDone();
+    } else {
+        displayQuestions();
+    }
 };
 
 // run if the timer hits 0
@@ -107,22 +116,28 @@ function onTimesUp() {
 
 // countdown timer
 function countdown() {
-    timerInterval = setInterval(() => {
-        timePassed = timePassed += 1;
-        timeLeft = timerStart - timePassed;
-        if (timeLeft === 0) {
-            onTimesUp();
-        }
-        if (currentQuestion === questionsArr.length) {
-            quizDone();
-        }
-        document.getElementById('timer').innerHTML = " " + timeLeft;
-    }, 1000);
-}
+    timePassed = timePassed += 1;
+    timeLeft = timerStart - timePassed;
+    if (timeLeft === 0) {
+        onTimesUp();
+    };
+    document.getElementById('timer').innerHTML = " " + timeLeft;
+};
 
 function quizDone() {
     // stop timer
-    clearInterval(timeLeft);
+    clearInterval(timerInterval);
+    if (timeLeft <= 0) {
+        onTimesUp();
+    }
 
-    //
-}
+    // hide question so we can show results
+    document.getElementById('questionContainer').style.visibility = 'hidden';
+
+    // show results container 
+    document.getElementById('resultContainer').style.visibility = 'visible';
+
+    // update score variable
+    score = document.querySelector('#final-score')
+    score.textContent = timeLeft;
+};
