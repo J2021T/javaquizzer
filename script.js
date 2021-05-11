@@ -13,7 +13,7 @@ var questionsArr = [
     },
     {
         question: 'Which symbol is used for single line comments in JavaScript?',
-        answer: ['//', '+', "/*", '$'],
+        answers: ['//', '+', "/*", '$'],
         correctChoice: 0
     },
     {
@@ -34,71 +34,95 @@ var questionsArr = [
 ];
 
 var currentQuestion = 0;
-var userChoice = [];
-
-
-const timerStart = 90;
+const timerStart = questionsArr.length * 15;
 var timePassed = 0;
 var timeLeft = timerStart;
 var timerInterval = null;
 var correctAnswer = questionsArr[currentQuestion].correctChoice;
 var correct = questionsArr[currentQuestion].answers[correctAnswer];
 
+// hide question and result containers
 document.getElementById('questionContainer').style.visibility = 'hidden';
-document.getElementById('start-btn').addEventListener('click', countdown);
+document.getElementById('resultContainer').style.visibility = 'hidden';
+
+// have the quiz function start when the button is clicked
 document.getElementById('start-btn').addEventListener('click', quiz);
 
 
 function quiz() {
+    // hide intro container
     document.getElementById('introContainer').style.visibility = 'hidden';
+    // make question container visible
     document.getElementById('questionContainer').style.visibility = 'visible';
-
+    
+    // start the countdown function
+    countdown();
+    // start the questions
     displayQuestions();
-    if (document.getElementsByClassName('li-btn btn').clicked == true) {
-        alert('button was clicked');
-    }
 }
 
 function answerQuestion() {
-    if (timeLeft > 0) {
-        if (document.getElementById(''+ ansOpt[i] +'').clicked === correct) {
-            currentQuestion++;
-            displayQuestions();
-        }
-        else {
-            currentQuestion++;
-            displayQuestions();
-            timeLeft = timeLeft - 5;
-        }
+    if (document.querySelector('button:not(#'+ correct +')').clicked == true) {
+        incrementQuestion();
+        displayQuestions();
+        timeLeft = timeLeft - 5;
     }
-    else if (timeLeft === 0) {
-        onTimesUp();
+    else {
+        incrementQuestion();
+        displayQuestions();            
     }
 }
 
-function displayQuestions() {    
+function displayQuestions() {  
+    var thisQuestion = questionsArr[currentQuestion];    
     var question = questionsArr[currentQuestion].question;
     var questionId = document.getElementById('question');
     var choicesId = document.getElementById('choices');
     var numAnswers = questionsArr[currentQuestion].answers.length;
     var ansOpt = questionsArr[currentQuestion].answers
+    // show question
     questionId.innerHTML = question;
+    // clear old choices
     choicesId.innerHTML = '';
 
-    for (var i = 0; i < numAnswers; i++) {
-        document.getElementById('choices').innerHTML += '<button id="li '+ ansOpt[i] +'" class="li-btn btn">' + ansOpt[i] + '</button>';
-     }
+    // get choices
+    thisQuestion.answers.forEach(function(answer, i) {
+        var choiceBtn = document.createElement('button');
+        choiceBtn.setAttribute('id', 'choices');
+        choiceBtn.setAttribute('value', answer);
+        choiceBtn.innerHTML = i + 1 + ". " + answer;
+        // click event listener
+        choiceBtn.onclick = answerQuestion;
+        // append to div
+        choicesId.appendChild(choiceBtn);
+     });
 };
 
+// run if the timer hits 0
 function onTimesUp() {
     clearInterval(timerInterval);
-    alert('Time is up and your score is 0');
+    alert('Time is up and your score is 0. To retry click OK.');
+    location.reload();
 };
 
+// countdown timer
 function countdown() {
     timerInterval = setInterval(() => {
         timePassed = timePassed += 1;
         timeLeft = timerStart - timePassed;
+        if (timeLeft === 0) {
+            onTimesUp();
+        }
+        if (currentQuestion === questionsArr.length) {
+            quizDone();
+        }
         document.getElementById('timer').innerHTML = " " + timeLeft;
     }, 1000);
+}
+
+function quizDone() {
+    // stop timer
+    clearInterval(timeLeft);
+
+    //
 }

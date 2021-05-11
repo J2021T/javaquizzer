@@ -21,10 +21,17 @@
     <div id="quiz">
         <div id="questionContainer">
             <div id="question"></div>
-            <ul id="choices"></ul>
+            <div id="choices"></div>
         </div>
     </div>
-    <div id="result"></div>
+    <div id="resultContainer">
+        <h2> Congratulations You Completed the Quiz!</h2>
+        <p>Your final score is <span id="final-score"></span>.</p>
+        <p>
+          Enter initials: <input type="text" id="initials" max="2" />
+          <button id="submit">Submit</button>
+        </p>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>
