@@ -10,4 +10,4 @@
 - https://j2021t.github.io/javaquizzer/
 
 ## Screenshot of Page
-![alt-text] (page-screenshot.png)
+![screenshot of Javaquizzer] (/page-screenshot.png)
