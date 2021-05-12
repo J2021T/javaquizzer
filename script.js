@@ -1,4 +1,3 @@
-var highScore = 0;
 var score = '';
 var questionsArr = [
     {
@@ -40,6 +39,7 @@ var timeLeft = timerStart;
 var timerInterval = null;
 var correctAnswer = questionsArr[currentQuestion].correctChoice;
 var correct = questionsArr[currentQuestion].answers[correctAnswer];
+var playerInitials = document.querySelector('#initials')
 
 // hide question and result containers
 document.getElementById('questionContainer').style.visibility = 'hidden';
@@ -141,3 +141,59 @@ function quizDone() {
     score = document.querySelector('#final-score')
     score.textContent = timeLeft;
 };
+
+// store scores
+function saveScore() {
+    var initials = document.querySelector('#initials').value.trim();
+
+    if (initials) {
+        var highScores = JSON.parse(localStorage.getItem("highScores")) || [];
+
+        var addScore = {
+            score: timeLeft,
+            initials: initials
+        };
+
+        highScores.push(addScore);
+        localStorage.setItem('highScores', JSON.stringify(highScores));
+    }
+}
+
+
+var input = document.getElementById("initials");
+input.addEventListener("keyup", function(event) {
+    if (event.keyCode === 13) {
+        event.preventDefault();
+        document.getElementById("btn").click();
+    };
+});
+
+
+// show high scores
+function displayHighscores() {
+    var highScores = JSON.parse(localStorage.getItem('highScores')) || [];
+    highScores.sort(function(a, b) {
+        return b.score-a.score;
+    });
+
+    highScores.forEach(function(score) {
+        // list items for each score
+        var scoreList = document.createElement('li');
+        scoreList.innerHTML = ''+ score.score +' - '+ score.initials +'';
+
+        // append to doc
+        var list = document.querySelector('.high-scores');
+        list.appendChild(scoreList);
+    });
+};
+
+//delete high scores
+var deleteBtn = document.querySelector('#clear-scores')
+deleteBtn.onclick = deleteScores;
+
+function deleteScores() {
+    localStorage.removeItem('highScores');
+    location.reload();
+}
+
+displayHighscores();

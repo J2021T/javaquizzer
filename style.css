@@ -28,7 +28,7 @@ body {
     transform: translate(-10%, -10%);
 }
 
-.btn {
+.btn, #btn {
     font-family: 'Josefin', sans-serif;
     color: aliceblue;
     background-color: navy;
@@ -36,7 +36,7 @@ body {
     font-weight: 400;
 }
 
-.li-btn {
+.li-btn, #btn {
     font-size: 20px;
     font-weight: 300;
 }
