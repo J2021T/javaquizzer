@@ -10,4 +10,4 @@
 - https://j2021t.github.io/javaquizzer/
 
 ## Screenshot of Page
-![screenshot of Javaquizzer] (/page-screenshot.png)
+![alt text](/page-screenshot.png "Deployed screenshot")
